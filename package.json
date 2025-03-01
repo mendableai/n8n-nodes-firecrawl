@@ -1,34 +1,28 @@
 {
-  "name": "n8n-nodes-<...>",
+  "name": "n8n-nodes-fire",
   "version": "0.1.0",
-  "description": "",
+  "description": "fire node for n8n",
   "keywords": [
     "n8n-community-node-package"
   ],
   "license": "MIT",
   "homepage": "",
   "author": {
-    "name": "",
-    "email": ""
+    "name": "Ademílson Tonato",
+    "email": "ademilsonft@outlook.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/<...>/n8n-nodes-<...>.git"
+    "url": "https://github.com/fire-nodes/n8n-nodes-fire.git"
   },
-  "engines": {
-    "node": ">=18.10",
-    "pnpm": ">=9.1"
-  },
-  "packageManager": "pnpm@9.1.4",
   "main": "index.js",
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
     "build": "tsc && gulp build:icons",
     "dev": "tsc --watch",
     "format": "prettier nodes credentials --write",
     "lint": "eslint nodes credentials package.json",
     "lintfix": "eslint nodes credentials package.json --fix",
-    "prepublishOnly": "pnpm build && pnpm lint -c .eslintrc.prepublish.js nodes credentials package.json"
+    "prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes credentials package.json"
   },
   "files": [
     "dist"
@@ -36,21 +30,19 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/ExampleCredentialsApi.credentials.js",
-      "dist/credentials/HttpBinApi.credentials.js"
+      "dist/credentials/FireApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/ExampleNode/ExampleNode.node.js",
-      "dist/nodes/HttpBin/HttpBin.node.js"
+      "dist/nodes/Fire/Fire.node.js"
     ]
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^7.15.0",
-    "eslint": "^8.56.0",
-    "eslint-plugin-n8n-nodes-base": "^1.16.1",
+    "@typescript-eslint/parser": "~5.45",
+    "eslint-plugin-n8n-nodes-base": "^1.11.0",
     "gulp": "^4.0.2",
-    "prettier": "^3.3.2",
-    "typescript": "^5.5.3"
+    "n8n-workflow": "*",
+    "prettier": "^2.7.1",
+    "typescript": "~4.8.4"
   },
   "peerDependencies": {
     "n8n-workflow": "*"
