@@ -1,5 +1,5 @@
 import { INodeType } from 'n8n-workflow';
-import { methods as apiMethods } from './api';
+import { apiMethods } from './api';
 
 /**
  * All methods for the Fire API node
@@ -11,10 +11,13 @@ import { methods as apiMethods } from './api';
  * Currently includes:
  * - API methods for map operations
  * - API methods for scrape operations
+ * - API methods for crawl operations
+ * - API methods for getCrawlStatus operations
  *
  * @returns The combined methods object that implements INodeType['methods']
  */
-export const allMethods: INodeType['methods'] = {
-  ...apiMethods,
-  // Add any additional methods here if needed in the future
-};
+export const allMethods = {
+  Default: {
+    ...apiMethods.Default
+  }
+} as INodeType['methods'];

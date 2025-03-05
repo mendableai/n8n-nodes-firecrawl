@@ -1,5 +1,5 @@
 import { INodeProperties } from 'n8n-workflow';
-import { properties as apiProperties } from './api';
+import { apiProperties } from './api';
 import { preSendActionCustomBody } from './helpers';
 
 /**
@@ -83,7 +83,7 @@ export const extraProperties: INodeProperties[] = [
       show: {
         useCustomBody: [true],
         resource: ['Default'],
-        operation: ['Crawl Url With Websocket Monitoring'],
+        operation: ['Crawl url with websocket monitoring'],
       },
     },
   },
@@ -164,11 +164,54 @@ export const extraProperties: INodeProperties[] = [
 ];
 
 /**
+ * Custom body for crawl operation
+ */
+const customBodyCrawl: INodeProperties = {
+  displayName: 'Custom Body',
+  name: 'customBody',
+  type: 'json',
+  default: `{
+  "url": "https://firecrawl.dev",
+  "excludePaths": ["blog/*"],
+  "includePaths": [],
+  "maxDepth": 2,
+  "limit": 100,
+  "crawlOptions": {
+    "ignoreSitemap": false,
+    "allowBackwardLinks": false,
+    "allowExternalLinks": false
+  },
+  "scrapeOptions": {
+    "formats": ["markdown"],
+    "onlyMainContent": true,
+    "removeBase64Images": true,
+    "mobile": false,
+    "waitFor": 0
+  },
+  "webhook": ""
+}`,
+  description: 'Custom body to send',
+  routing: {
+    request: {
+      body: '={{JSON.parse($value)}}',
+    },
+  },
+  displayOptions: {
+    show: {
+      resource: ['Default'],
+      operation: ['Crawl a website'],
+      useCustomBody: [true],
+    },
+  },
+};
+
+/**
  * Combine all properties into a single array
  */
 export const allProperties = [
   ...authenticationProperties,
   ...resourceSelect,
   ...apiProperties,
-  ...extraProperties
+  ...extraProperties,
+  customBodyCrawl,
 ];

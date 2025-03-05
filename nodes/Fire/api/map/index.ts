@@ -5,6 +5,97 @@ import { buildApiProperties, createOperationNotice, createUrlProperty } from '..
 export const name = 'map';
 export const displayName = 'Map a website and get urls';
 
+function createIgnoreSitemapProperty(): INodeProperties {
+	return {
+		displayName: 'Ignore Sitemap',
+		name: 'ignoreSitemap',
+		type: 'boolean',
+		default: true,
+		description: 'Whether to ignore the website sitemap when crawling',
+		routing: {
+			request: {
+				body: {
+					ignoreSitemap: '={{ $value }}',
+				},
+			},
+		},
+	};
+}
+
+function createSitemapOnlyProperty(): INodeProperties {
+	return {
+		displayName: 'Sitemap Only',
+		name: 'sitemapOnly',
+		type: 'boolean',
+		default: false,
+		description: 'Whether to only return links found in the website sitemap',
+		routing: {
+			request: {
+				body: {
+					sitemapOnly: '={{ $value }}',
+				},
+			},
+		},
+	};
+}
+
+function createIncludeSubdomainsProperty(): INodeProperties {
+	return {
+		displayName: 'Include Subdomains',
+		name: 'includeSubdomains',
+		type: 'boolean',
+		default: false,
+		description: 'Whether to include subdomains of the website',
+		routing: {
+			request: {
+				body: {
+					includeSubdomains: '={{ $value }}',
+				},
+			},
+		},
+	};
+}
+
+function createLimitProperty(): INodeProperties {
+	return {
+		displayName: 'Limit',
+		name: 'limit',
+		type: 'number',
+		typeOptions: {
+			minValue: 1,
+			// eslint-disable-next-line n8n-nodes-base/node-param-type-options-max-value-present
+			maxValue: 5000,
+		},
+		// eslint-disable-next-line n8n-nodes-base/node-param-default-wrong-for-limit
+		default: 5000,
+		description: 'Max number of results to return',
+		routing: {
+			request: {
+				body: {
+					limit: '={{ $value }}',
+				},
+			},
+		},
+	};
+}
+
+function createTimeoutProperty(): INodeProperties {
+	return {
+		displayName: 'Timeout (Ms)',
+		name: 'timeout',
+		type: 'number',
+		default: 10000,
+		description: 'Timeout in milliseconds for the request',
+		routing: {
+			request: {
+				body: {
+					timeout: '={{ $value }}',
+				},
+			},
+		},
+	};
+}
+
 /**
  * Create the properties for the map operation
  */
@@ -13,10 +104,17 @@ function createMapProperties(): INodeProperties[] {
 		// Operation notice
 		createOperationNotice('Default', name),
 
-		// URL input
 		createUrlProperty(name),
 
-		// Additional properties can be added here
+		createIgnoreSitemapProperty(),
+
+		createSitemapOnlyProperty(),
+
+		createIncludeSubdomainsProperty(),
+
+		createLimitProperty(),
+
+		createTimeoutProperty(),
 	];
 }
 

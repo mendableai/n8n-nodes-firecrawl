@@ -28,6 +28,8 @@ export class FireApi implements ICredentialType {
 		properties: {
 			headers: {
 				Authorization: '=Bearer {{$credentials.apiKey}}',
+				_origin: 'n8n',
+				_originType: 'integration',
 			},
 		},
 	};

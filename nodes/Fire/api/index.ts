@@ -1,47 +1,80 @@
-import { INodeProperties } from 'n8n-workflow';
+import { INodeProperties, INodePropertyOptions } from 'n8n-workflow';
+
+// Import options and properties from each operation
 import { options as mapOptions, properties as mapProperties } from './map';
 import { options as scrapeOptions, properties as scrapeProperties } from './scrape';
-import { buildPropertiesWithMethods } from '../helpers';
+import { options as crawlOptions, properties as crawlProperties } from './crawl';
+import { options as getCrawlStatusOptions, properties as getCrawlStatusProperties } from './getCrawlStatus';
 
 /**
- * Combined operation options from all API endpoints
+ * Combined operation options
  */
-const operationOptions = [mapOptions, scrapeOptions];
+const operationOptions: INodePropertyOptions[] = [
+	mapOptions,
+	scrapeOptions,
+	crawlOptions,
+	getCrawlStatusOptions,
+];
+
+/**
+ * Combined properties from all operations
+ */
+const rawProperties: INodeProperties[] = [
+	...mapProperties,
+	...scrapeProperties,
+	...crawlProperties,
+	...getCrawlStatusProperties,
+];
 
 /**
  * Operation selector property
  */
-const operationSelect = {
+const operationSelector: INodeProperties = {
 	displayName: 'Operation',
 	name: 'operation',
 	type: 'options',
-	default: '',
 	noDataExpression: true,
 	displayOptions: {
 		show: {
 			resource: ['Default'],
 		},
 	},
+	default: 'map',
 	options: operationOptions,
-} as INodeProperties;
-
-// Set default value
-operationSelect.default = operationOptions.length > 0 ? operationOptions[0].value : '';
+};
 
 /**
- * Combined properties from all API operations
+ * All API properties
  */
-const rawProperties: INodeProperties[] = [
-	operationSelect,
-	...mapProperties,
-	...scrapeProperties,
+export const apiProperties: INodeProperties[] = [
+	operationSelector,
+	...rawProperties,
 ];
 
 /**
- * Build final properties and methods
- * This uses the buildPropertiesWithMethods helper to create
- * the final properties and methods objects
+ * All API methods
  */
-const { properties, methods } = buildPropertiesWithMethods(rawProperties);
-
-export { properties, methods };
+export const apiMethods = {
+	Default: {
+		map: {
+			execute(this: any) {
+				return this.helpers.httpRequest as any;
+			},
+		},
+		scrape: {
+			execute(this: any) {
+				return this.helpers.httpRequest as any;
+			},
+		},
+		crawl: {
+			execute(this: any) {
+				return this.helpers.httpRequest as any;
+			},
+		},
+		getCrawlStatus: {
+			execute(this: any) {
+				return this.helpers.httpRequest as any;
+			},
+		},
+	},
+};
