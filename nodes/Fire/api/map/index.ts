@@ -4,6 +4,7 @@ import { buildApiProperties, createOperationNotice, createUrlProperty } from '..
 // Define the operation name and display name
 export const name = 'map';
 export const displayName = 'Map a website and get urls';
+export const operationName = 'map';
 
 function createIgnoreSitemapProperty(): INodeProperties {
 	return {
@@ -17,6 +18,15 @@ function createIgnoreSitemapProperty(): INodeProperties {
 				body: {
 					ignoreSitemap: '={{ $value }}',
 				},
+			},
+		},
+		displayOptions: {
+			hide: {
+				useCustomBody: [true],
+			},
+			show: {
+				resource: ['Default'],
+				operation: [operationName],
 			},
 		},
 	};
@@ -36,6 +46,15 @@ function createSitemapOnlyProperty(): INodeProperties {
 				},
 			},
 		},
+		displayOptions: {
+			hide: {
+				useCustomBody: [true],
+			},
+			show: {
+				resource: ['Default'],
+				operation: [operationName],
+			},
+		},
 	};
 }
 
@@ -51,6 +70,15 @@ function createIncludeSubdomainsProperty(): INodeProperties {
 				body: {
 					includeSubdomains: '={{ $value }}',
 				},
+			},
+		},
+		displayOptions: {
+			hide: {
+				useCustomBody: [true],
+			},
+			show: {
+				resource: ['Default'],
+				operation: [operationName],
 			},
 		},
 	};
@@ -76,6 +104,15 @@ function createLimitProperty(): INodeProperties {
 				},
 			},
 		},
+		displayOptions: {
+			hide: {
+				useCustomBody: [true],
+			},
+			show: {
+				resource: ['Default'],
+				operation: [operationName],
+			},
+		},
 	};
 }
 
@@ -91,6 +128,15 @@ function createTimeoutProperty(): INodeProperties {
 				body: {
 					timeout: '={{ $value }}',
 				},
+			},
+		},
+		displayOptions: {
+			hide: {
+				useCustomBody: [true],
+			},
+			show: {
+				resource: ['Default'],
+				operation: [operationName],
 			},
 		},
 	};

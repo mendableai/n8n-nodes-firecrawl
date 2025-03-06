@@ -5,6 +5,8 @@ import { options as mapOptions, properties as mapProperties } from './map';
 import { options as scrapeOptions, properties as scrapeProperties } from './scrape';
 import { options as crawlOptions, properties as crawlProperties } from './crawl';
 import { options as getCrawlStatusOptions, properties as getCrawlStatusProperties } from './getCrawlStatus';
+import { options as extractOptions, properties as extractProperties } from './extract';
+import { options as getExtractStatusOptions, properties as getExtractStatusProperties } from './getExtractStatus';
 
 /**
  * Combined operation options
@@ -14,6 +16,8 @@ const operationOptions: INodePropertyOptions[] = [
 	scrapeOptions,
 	crawlOptions,
 	getCrawlStatusOptions,
+	extractOptions,
+	getExtractStatusOptions,
 ];
 
 /**
@@ -24,6 +28,8 @@ const rawProperties: INodeProperties[] = [
 	...scrapeProperties,
 	...crawlProperties,
 	...getCrawlStatusProperties,
+	...extractProperties,
+	...getExtractStatusProperties,
 ];
 
 /**
@@ -72,6 +78,16 @@ export const apiMethods = {
 			},
 		},
 		getCrawlStatus: {
+			execute(this: any) {
+				return this.helpers.httpRequest as any;
+			},
+		},
+		extract: {
+			execute(this: any) {
+				return this.helpers.httpRequest as any;
+			},
+		},
+		getExtractStatus: {
 			execute(this: any) {
 				return this.helpers.httpRequest as any;
 			},

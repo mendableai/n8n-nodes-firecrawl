@@ -13,6 +13,8 @@ import { apiMethods } from './api';
  * - API methods for scrape operations
  * - API methods for crawl operations
  * - API methods for getCrawlStatus operations
+ * - API methods for extract operations
+ * - API methods for getExtractStatus operations
  *
  * @returns The combined methods object that implements INodeType['methods']
  */
