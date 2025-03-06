@@ -1,5 +1,5 @@
 {
-  "name": "n8n-nodes-firecrawl",
+  "name": "@mendable/n8n-nodes-firecrawl",
   "version": "1.0.0",
   "description": "Firecrawl node for n8n",
   "keywords": [
@@ -46,5 +46,8 @@
   },
   "peerDependencies": {
     "n8n-workflow": "*"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
