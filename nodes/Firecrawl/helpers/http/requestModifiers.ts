@@ -1,8 +1,4 @@
-import {
-	IDataObject,
-	IExecuteSingleFunctions,
-	IHttpRequestOptions,
-} from 'n8n-workflow';
+import { IDataObject, IExecuteSingleFunctions, IHttpRequestOptions } from 'n8n-workflow';
 
 /**
  * Modifies the request options to include custom body properties

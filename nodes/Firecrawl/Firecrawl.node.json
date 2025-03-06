@@ -1,5 +1,5 @@
 {
-	"node": "n8n-nodes-base.Fire",
+	"node": "n8n-nodes-base.Firecrawl",
 	"nodeVersion": "1.0",
 	"codexVersion": "1.0",
 	"categories": ["Miscellaneous", "Development", "Developer Tools"],

@@ -40,14 +40,15 @@ function createExtractIdProperty(): INodeProperties {
  * @returns Array of properties for the get extract status operation
  */
 function createGetExtractStatusProperties(): INodeProperties[] {
-
-	return [
-		createOperationNotice('Default', name, 'GET'),
-		createExtractIdProperty()];
+	return [createOperationNotice('Default', name, 'GET'), createExtractIdProperty()];
 }
 
 // Build and export the properties and options
-const { options, properties } = buildApiProperties(name, displayName, createGetExtractStatusProperties());
+const { options, properties } = buildApiProperties(
+	name,
+	displayName,
+	createGetExtractStatusProperties(),
+);
 
 // Override the default routing for this operation
 options.routing = {

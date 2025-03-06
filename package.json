@@ -1,19 +1,19 @@
 {
-  "name": "n8n-nodes-fire",
-  "version": "0.1.0",
-  "description": "fire node for n8n",
+  "name": "n8n-nodes-firecrawl",
+  "version": "1.0.0",
+  "description": "Firecrawl node for n8n",
   "keywords": [
     "n8n-community-node-package"
   ],
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://www.firecrawl.dev",
   "author": {
     "name": "Ademílson Tonato",
     "email": "ademilsonft@outlook.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fire-nodes/n8n-nodes-fire.git"
+    "url": "https://github.com/mendableai/n8n-nodes-firecrawl.git"
   },
   "main": "index.js",
   "scripts": {
@@ -30,10 +30,10 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/FireApi.credentials.js"
+      "dist/credentials/FirecrawlApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/Fire/Fire.node.js"
+      "dist/nodes/Firecrawl/Firecrawl.node.js"
     ]
   },
   "devDependencies": {

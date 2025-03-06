@@ -1,9 +1,9 @@
 import type { IAuthenticateGeneric, ICredentialType, INodeProperties } from 'n8n-workflow';
 
-export class FireApi implements ICredentialType {
-	name = 'fireApi';
+export class FirecrawlApi implements ICredentialType {
+	name = 'firecrawlApi';
 
-	displayName = 'Fire API';
+	displayName = 'Firecrawl API';
 
 	documentationUrl = 'https://docs.firecrawl.dev/introduction#api-key';
 

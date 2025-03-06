@@ -4,9 +4,15 @@ import { INodeProperties, INodePropertyOptions } from 'n8n-workflow';
 import { options as mapOptions, properties as mapProperties } from './map';
 import { options as scrapeOptions, properties as scrapeProperties } from './scrape';
 import { options as crawlOptions, properties as crawlProperties } from './crawl';
-import { options as getCrawlStatusOptions, properties as getCrawlStatusProperties } from './getCrawlStatus';
+import {
+	options as getCrawlStatusOptions,
+	properties as getCrawlStatusProperties,
+} from './getCrawlStatus';
 import { options as extractOptions, properties as extractProperties } from './extract';
-import { options as getExtractStatusOptions, properties as getExtractStatusProperties } from './getExtractStatus';
+import {
+	options as getExtractStatusOptions,
+	properties as getExtractStatusProperties,
+} from './getExtractStatus';
 
 /**
  * Combined operation options
@@ -52,10 +58,7 @@ const operationSelector: INodeProperties = {
 /**
  * All API properties
  */
-export const apiProperties: INodeProperties[] = [
-	operationSelector,
-	...rawProperties,
-];
+export const apiProperties: INodeProperties[] = [operationSelector, ...rawProperties];
 
 /**
  * All API methods
