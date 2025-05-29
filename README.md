@@ -67,6 +67,9 @@ To use the Firecrawl node, you need to:
 
 ## Version history
 
+### 1.0.1
+- Support for Search operation
+
 ### 1.0.0
 - Initial release
 - Support for all basic Firecrawl operations:
