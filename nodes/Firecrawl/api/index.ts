@@ -1,6 +1,7 @@
 import { INodeProperties, INodePropertyOptions } from 'n8n-workflow';
 
 // Import options and properties from each operation
+import { options as searchOptions, properties as searchProperties } from './search';
 import { options as mapOptions, properties as mapProperties } from './map';
 import { options as scrapeOptions, properties as scrapeProperties } from './scrape';
 import { options as crawlOptions, properties as crawlProperties } from './crawl';
@@ -18,6 +19,7 @@ import {
  * Combined operation options
  */
 const operationOptions: INodePropertyOptions[] = [
+	searchOptions,
 	mapOptions,
 	scrapeOptions,
 	crawlOptions,
@@ -30,6 +32,7 @@ const operationOptions: INodePropertyOptions[] = [
  * Combined properties from all operations
  */
 const rawProperties: INodeProperties[] = [
+	...searchProperties,
 	...mapProperties,
 	...scrapeProperties,
 	...crawlProperties,
@@ -65,6 +68,11 @@ export const apiProperties: INodeProperties[] = [operationSelector, ...rawProper
  */
 export const apiMethods = {
 	Default: {
+		search: {
+			execute(this: any) {
+				return this.helpers.httpRequest as any;
+			},
+		},
 		map: {
 			execute(this: any) {
 				return this.helpers.httpRequest as any;
