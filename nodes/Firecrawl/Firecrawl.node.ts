@@ -31,6 +31,9 @@ export class Firecrawl implements INodeType {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
+			body: {
+				integration: 'n8n',
+			},
 		},
 		properties: allProperties,
 	};

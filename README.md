@@ -67,6 +67,9 @@ To use the Firecrawl node, you need to:
 
 ## Version history
 
+### 1.0.2
+- Add integration parameter in all endpoint calls
+
 ### 1.0.1
 - Support for Search operation
 

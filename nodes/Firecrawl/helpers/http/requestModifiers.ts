@@ -12,6 +12,9 @@ export async function mergeCustomBodyWithRequest(
 	const { customBody } = requestOptions.body as IDataObject;
 
 	if (typeof requestOptions.body === 'object' && typeof customBody === 'object') {
+		// Store the integration value before merging
+		const integration = (requestOptions.body as IDataObject).integration;
+
 		requestOptions.body = {
 			...requestOptions.body,
 			...customBody,
@@ -19,6 +22,11 @@ export async function mergeCustomBodyWithRequest(
 
 		// Remove the customBody property as it's no longer needed
 		delete (requestOptions.body as IDataObject).customBody;
+
+		// Restore the integration value if it was set
+		if (integration) {
+			(requestOptions.body as IDataObject).integration = integration;
+		}
 	}
 
 	return Promise.resolve(requestOptions);
