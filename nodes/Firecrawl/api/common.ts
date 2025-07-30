@@ -67,9 +67,6 @@ export function createUrlProperty(
 			},
 		},
 		displayOptions: {
-			hide: {
-				useCustomBody: [true],
-			},
 			show: {
 				resource: [resourceName],
 				operation: [operationName],
