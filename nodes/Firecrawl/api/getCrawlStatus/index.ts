@@ -26,9 +26,6 @@ function createCrawlIdProperty(): INodeProperties {
 			},
 		},
 		displayOptions: {
-			hide: {
-				useCustomBody: [true],
-			},
 			show: {
 				resource: ['Default'],
 				operation: [operationName],

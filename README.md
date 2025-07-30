@@ -67,6 +67,9 @@ To use the Firecrawl node, you need to:
 
 ## Version history
 
+### 1.0.4
+- Add additional fields property for custom data in Firecrawl API nodes
+
 ### 1.0.2
 - Add integration parameter in all endpoint calls
 
