@@ -17,7 +17,7 @@ export class FirecrawlApi implements ICredentialType {
 			displayName: 'Base URL',
 			name: 'baseUrl',
 			type: 'string',
-			default: 'https://api.firecrawl.dev/v1',
+			default: 'https://api.firecrawl.dev/v2',
 		},
 		{
 			displayName: 'API Key',
