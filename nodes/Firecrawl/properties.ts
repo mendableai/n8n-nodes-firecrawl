@@ -174,7 +174,7 @@ const customBodyCrawl: INodeProperties = {
   "url": "https://firecrawl.dev",
   "excludePaths": ["blog/*"],
   "includePaths": [],
-  "maxDepth": 2,
+  "prompt": "Get the latest news from the blog",
   "limit": 100,
   "crawlOptions": {
     "ignoreSitemap": false,

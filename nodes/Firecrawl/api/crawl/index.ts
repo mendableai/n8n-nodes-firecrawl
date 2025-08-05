@@ -135,40 +135,6 @@ function createIncludePathsProperty(
 }
 
 /**
- * Creates the max depth property
- * @param operationName - The name of the operation
- * @returns The max depth property
- */
-function createMaxDepthProperty(operationName: string): INodeProperties {
-	return {
-		displayName: 'Max Depth',
-		name: 'maxDepth',
-		type: 'number',
-		typeOptions: {
-			minValue: 1,
-		},
-		default: 2,
-		description: 'Maximum depth to crawl relative to the entered URL',
-		routing: {
-			request: {
-				body: {
-					maxDepth: '={{ $value }}',
-				},
-			},
-		},
-		displayOptions: {
-			hide: {
-				useCustomBody: [true],
-			},
-			show: {
-				resource: ['Default'],
-				operation: [operationName],
-			},
-		},
-	};
-}
-
-/**
  * Creates the limit property
  * @param operationName - The name of the operation
  * @returns The limit property
@@ -187,6 +153,37 @@ function createLimitProperty(operationName: string): INodeProperties {
 			request: {
 				body: {
 					limit: '={{ $value }}',
+				},
+			},
+		},
+		displayOptions: {
+			hide: {
+				useCustomBody: [true],
+			},
+			show: {
+				resource: ['Default'],
+				operation: [operationName],
+			},
+		},
+	};
+}
+
+/**
+ * Creates the prompt property
+ * @param operationName - The name of the operation
+ * @returns The prompt property
+ */
+function createPromptProperty(operationName: string): INodeProperties {
+	return {
+		displayName: 'Prompt',
+		name: 'prompt',
+		type: 'string',
+		default: '',
+		description: 'Prompt to use for the crawl',
+		routing: {
+			request: {
+				body: {
+					prompt: '={{ $value }}',
 				},
 			},
 		},
@@ -371,11 +368,11 @@ function createCrawlProperties(): INodeProperties[] {
 		// Include paths
 		createIncludePathsProperty(operationName),
 
-		// Max depth
-		createMaxDepthProperty(operationName),
-
 		// Limit
 		createLimitProperty(operationName),
+
+		// Prompt
+		createPromptProperty(operationName),
 
 		// Crawl options
 		createCrawlOptionsProperty(operationName),
