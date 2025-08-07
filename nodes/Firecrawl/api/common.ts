@@ -642,6 +642,64 @@ export function createScrapeOptionsProperty(
 											},
 										},
 									},
+									{
+										displayName: 'Full Page',
+										name: 'fullPage',
+										type: 'boolean',
+										default: false,
+										description: 'Whether to capture the full page screenshot',
+										displayOptions: {
+											show: {
+												type: ['screenshot'],
+											},
+										},
+									},
+									{
+										displayName: 'Quality',
+										name: 'quality',
+										type: 'number',
+										typeOptions: {
+											minValue: 1,
+											maxValue: 100,
+										},
+										default: 100,
+										description: 'Screenshot quality (1-100)',
+										displayOptions: {
+											show: {
+												type: ['screenshot'],
+											},
+										},
+									},
+									{
+										displayName: 'Viewport Width',
+										name: 'viewportWidth',
+										type: 'number',
+										typeOptions: {
+											minValue: 1,
+										},
+										default: 1024,
+										description: 'Viewport width for screenshot',
+										displayOptions: {
+											show: {
+												type: ['screenshot'],
+											},
+										},
+									},
+									{
+										displayName: 'Viewport Height',
+										name: 'viewportHeight',
+										type: 'number',
+										typeOptions: {
+											minValue: 1,
+										},
+										default: 768,
+										description: 'Viewport height for screenshot',
+										displayOptions: {
+											show: {
+												type: ['screenshot'],
+											},
+										},
+									},
 								],
 							},
 						],
@@ -649,7 +707,7 @@ export function createScrapeOptionsProperty(
 							request: {
 								body: {
 									formats:
-										'={{$value.format ? $value.format.map(f => { if (f.type === "json" || f.type === "changeTracking") { const format = { type: f.type }; if (f.prompt) format.prompt = f.prompt; if (f.schema) format.schema = JSON.parse(f.schema); if (f.modes) format.modes = f.modes; if (f.tag) format.tag = f.tag; return format; } else { return f.type; } }) : []}}',
+										'={{$value.format ? $value.format.map(f => { if (f.type === "json" || f.type === "changeTracking") { const format = { type: f.type }; if (f.prompt) format.prompt = f.prompt; if (f.schema) format.schema = JSON.parse(f.schema); if (f.modes) format.modes = f.modes; if (f.tag) format.tag = f.tag; return format; } else if (f.type === "screenshot") { const format = { type: f.type }; if (f.fullPage !== undefined) format.fullPage = f.fullPage; if (f.quality !== undefined && f.quality !== "" && f.quality !== null) format.quality = f.quality; if (f.viewportWidth !== undefined && f.viewportWidth !== "" && f.viewportWidth !== null && f.viewportHeight !== undefined && f.viewportHeight !== "" && f.viewportHeight !== null) { format.viewport = { width: f.viewportWidth, height: f.viewportHeight }; } return format; } else { return f.type; } }) : []}}',
 								},
 							},
 						},
