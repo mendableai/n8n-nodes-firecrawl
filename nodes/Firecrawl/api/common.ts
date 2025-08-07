@@ -507,35 +507,210 @@ export function createScrapeOptionsProperty(
 					{
 						displayName: 'Formats',
 						name: 'formats',
-						type: 'multiOptions',
-						default: ['markdown'],
+						type: 'fixedCollection',
+						default: [{ type: 'markdown' }],
+						typeOptions: {
+							multipleValues: true,
+						},
 						description: 'Output format(s) for the scraped data',
+						placeholder: 'Add format',
 						options: [
 							{
-								name: 'HTML',
-								value: 'html',
-							},
-							{
-								name: 'JSON',
-								value: 'json',
-							},
-							{
-								name: 'Links',
-								value: 'links',
-							},
-							{
-								name: 'Markdown',
-								value: 'markdown',
-							},
-							{
-								name: 'Raw HTML',
-								value: 'rawHtml',
-							},
-							{
-								name: 'Screenshot',
-								value: 'screenshot',
+								displayName: 'Format',
+								name: 'format',
+								values: [
+									{
+										displayName: 'Type',
+										name: 'type',
+										type: 'options',
+										default: 'markdown',
+										description: 'The type of format',
+										options: [
+											{
+												name: 'Change Tracking',
+												value: 'changeTracking',
+											},
+											{
+												name: 'HTML',
+												value: 'html',
+											},
+											{
+												name: 'JSON',
+												value: 'json',
+											},
+											{
+												name: 'Links',
+												value: 'links',
+											},
+											{
+												name: 'Markdown',
+												value: 'markdown',
+											},
+											{
+												name: 'Raw HTML',
+												value: 'rawHtml',
+											},
+											{
+												name: 'Screenshot',
+												value: 'screenshot',
+											},
+											{
+												name: 'Summary',
+												value: 'summary',
+											},
+										],
+									},
+									{
+										displayName: 'Prompt',
+										name: 'prompt',
+										type: 'string',
+										default: '',
+										description: 'Prompt for JSON format extraction',
+										displayOptions: {
+											show: {
+												type: ['json'],
+											},
+										},
+									},
+									{
+										displayName: 'Schema',
+										name: 'schema',
+										type: 'json',
+										default: '{}',
+										description: 'JSON schema for JSON format extraction',
+										displayOptions: {
+											show: {
+												type: ['json'],
+											},
+										},
+									},
+									{
+										displayName: 'Modes',
+										name: 'modes',
+										type: 'multiOptions',
+										default: ['git-diff'],
+										description: 'Modes for change tracking. At least one mode must be selected.',
+										displayOptions: {
+											show: {
+												type: ['changeTracking'],
+											},
+										},
+										options: [
+											{
+												name: 'Git Diff',
+												value: 'git-diff',
+											},
+											{
+												name: 'JSON',
+												value: 'json',
+											},
+										],
+									},
+									{
+										displayName: 'Schema',
+										name: 'schema',
+										type: 'json',
+										default: '{}',
+										description: 'JSON schema for change tracking',
+										displayOptions: {
+											show: {
+												type: ['changeTracking'],
+											},
+										},
+									},
+									{
+										displayName: 'Prompt',
+										name: 'prompt',
+										type: 'string',
+										default: '',
+										description: 'Prompt for change tracking',
+										displayOptions: {
+											show: {
+												type: ['changeTracking'],
+											},
+										},
+									},
+									{
+										displayName: 'Tag',
+										name: 'tag',
+										type: 'string',
+										default: '',
+										description: 'Tag for change tracking',
+										displayOptions: {
+											show: {
+												type: ['changeTracking'],
+											},
+										},
+									},
+									{
+										displayName: 'Full Page',
+										name: 'fullPage',
+										type: 'boolean',
+										default: false,
+										description: 'Whether to capture the full page screenshot',
+										displayOptions: {
+											show: {
+												type: ['screenshot'],
+											},
+										},
+									},
+									{
+										displayName: 'Quality',
+										name: 'quality',
+										type: 'number',
+										typeOptions: {
+											minValue: 1,
+											maxValue: 100,
+										},
+										default: 100,
+										description: 'Screenshot quality (1-100)',
+										displayOptions: {
+											show: {
+												type: ['screenshot'],
+											},
+										},
+									},
+									{
+										displayName: 'Viewport Width',
+										name: 'viewportWidth',
+										type: 'number',
+										typeOptions: {
+											minValue: 1,
+										},
+										default: 1024,
+										description: 'Viewport width for screenshot',
+										displayOptions: {
+											show: {
+												type: ['screenshot'],
+											},
+										},
+									},
+									{
+										displayName: 'Viewport Height',
+										name: 'viewportHeight',
+										type: 'number',
+										typeOptions: {
+											minValue: 1,
+										},
+										default: 768,
+										description: 'Viewport height for screenshot',
+										displayOptions: {
+											show: {
+												type: ['screenshot'],
+											},
+										},
+									},
+								],
 							},
 						],
+						routing: {
+							request: {
+								body: {
+									formats:
+										'={{$value.format ? $value.format.map(f => { if (f.type === "json" || f.type === "changeTracking") { const format = { type: f.type }; if (f.prompt) format.prompt = f.prompt; if (f.schema) format.schema = JSON.parse(f.schema); if (f.modes) format.modes = f.modes; if (f.tag) format.tag = f.tag; return format; } else if (f.type === "screenshot") { const format = { type: f.type }; if (f.fullPage !== undefined) format.fullPage = f.fullPage; if (f.quality !== undefined && f.quality !== "" && f.quality !== null) format.quality = f.quality; if (f.viewportWidth !== undefined && f.viewportWidth !== "" && f.viewportWidth !== null && f.viewportHeight !== undefined && f.viewportHeight !== "" && f.viewportHeight !== null) { format.viewport = { width: f.viewportWidth, height: f.viewportHeight }; } return format; } else { return f.type; } }) : []}}',
+								},
+							},
+						},
 					},
 					{
 						displayName: 'Only Main Content',
@@ -613,6 +788,14 @@ export function createScrapeOptionsProperty(
 						type: 'boolean',
 						default: true,
 						description: 'Whether to enables ad-blocking and cookie popup blocking',
+					},
+					{
+						displayName: 'Store In Cache',
+						name: 'storeInCache',
+						type: 'boolean',
+						default: true,
+						description:
+							'Whether to store the page in the Firecrawl index and cache. Disable for data protection concerns or when using sensitive scraping parameters.',
 					},
 					{
 						displayName: 'Proxy',

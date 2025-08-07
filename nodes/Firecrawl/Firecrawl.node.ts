@@ -26,7 +26,7 @@ export class Firecrawl implements INodeType {
 			},
 		],
 		requestDefaults: {
-			baseURL: '={{ $credentials.baseUrl || "https://api.firecrawl.dev/v1" }}',
+			baseURL: '={{ $credentials.baseUrl || "https://api.firecrawl.dev/v2" }}',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',

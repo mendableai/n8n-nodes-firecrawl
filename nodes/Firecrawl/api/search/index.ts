@@ -15,7 +15,7 @@ export const operationName = 'search';
 /**
  * Create the query property
  */
-function createQueryProperty(operation: string): INodeProperties {
+function createQueryProperty(operationName: string): INodeProperties {
 	return {
 		displayName: 'Query',
 		name: 'query',
@@ -32,7 +32,7 @@ function createQueryProperty(operation: string): INodeProperties {
 		},
 		displayOptions: {
 			show: {
-				operation: [operation],
+				operation: [operationName],
 			},
 		},
 	};
@@ -41,7 +41,7 @@ function createQueryProperty(operation: string): INodeProperties {
 /**
  * Create the limit property
  */
-function createLimitProperty(operation: string): INodeProperties {
+function createLimitProperty(operationName: string): INodeProperties {
 	return {
 		displayName: 'Limit',
 		name: 'limit',
@@ -49,7 +49,8 @@ function createLimitProperty(operation: string): INodeProperties {
 		typeOptions: {
 			minValue: 1,
 		},
-		default: 50,
+		// eslint-disable-next-line n8n-nodes-base/node-param-default-wrong-for-limit
+		default: 5,
 		description: 'Max number of results to return',
 		routing: {
 			request: {
@@ -60,12 +61,84 @@ function createLimitProperty(operation: string): INodeProperties {
 		},
 		displayOptions: {
 			show: {
-				operation: [operation],
+				operation: [operationName],
 			},
 			hide: {
 				useCustomBody: [true],
 			},
 		},
+	};
+}
+
+/**
+ * Creates the sources property
+ * @param operationName - The name of the operation
+ * @param omitDisplayOptions - Whether to omit the display options
+ * @returns The sources property
+ */
+function createSourcesProperty(
+	operationName: string,
+	omitDisplayOptions: boolean = false,
+): INodeProperties {
+	return {
+		displayName: 'Sources',
+		name: 'sources',
+		type: 'multiOptions',
+		options: [
+			{
+				name: 'Web',
+				value: 'web',
+			},
+			{
+				name: 'Images',
+				value: 'images',
+			},
+			{
+				name: 'News',
+				value: 'news',
+			},
+		],
+		default: ['web'],
+		description: 'Specifies the sources to search from. At least one source must be selected.',
+		routing: {
+			request: {
+				body: {
+					sources: '={{$value.map(source => ({ type: source }))}}',
+				},
+			},
+			send: {
+				preSend: [
+					async function (
+						this: IExecuteSingleFunctions,
+						requestOptions: IHttpRequestOptions,
+					): Promise<IHttpRequestOptions> {
+						if (typeof requestOptions.body !== 'object' || !requestOptions.body) {
+							return requestOptions;
+						}
+
+						const body = requestOptions.body as IDataObject;
+
+						// Ensure at least one source is selected
+						if (!body.sources || (Array.isArray(body.sources) && body.sources.length === 0)) {
+							throw new Error('At least one source must be selected (web, images, or news)');
+						}
+
+						return requestOptions;
+					},
+				],
+			},
+		},
+		displayOptions: omitDisplayOptions
+			? undefined
+			: {
+					hide: {
+						useCustomBody: [true],
+					},
+					show: {
+						resource: ['Default'],
+						operation: [operationName],
+					},
+			  },
 	};
 }
 
@@ -98,65 +171,9 @@ function createTimeBasedSearchProperty(operation: string): INodeProperties {
 }
 
 /**
- * Create the language property
- */
-function createLanguageProperty(operation: string): INodeProperties {
-	return {
-		displayName: 'Language',
-		name: 'lang',
-		type: 'string',
-		default: 'en',
-		description: 'Language code for search results',
-		routing: {
-			request: {
-				body: {
-					lang: '={{ $value }}',
-				},
-			},
-		},
-		displayOptions: {
-			show: {
-				operation: [operation],
-			},
-			hide: {
-				useCustomBody: [true],
-			},
-		},
-	};
-}
-
-/**
- * Create the country property
- */
-function createCountryProperty(operation: string): INodeProperties {
-	return {
-		displayName: 'Country',
-		name: 'country',
-		type: 'string',
-		default: 'us',
-		description: 'Country code for search results',
-		routing: {
-			request: {
-				body: {
-					country: '={{ $value }}',
-				},
-			},
-		},
-		displayOptions: {
-			show: {
-				operation: [operation],
-			},
-			hide: {
-				useCustomBody: [true],
-			},
-		},
-	};
-}
-
-/**
  * Create additional fields property for custom data
  */
-function createAdditionalFieldsProperty(operation: string): INodeProperties {
+function createAdditionalFieldsProperty(operationName: string): INodeProperties {
 	return {
 		displayName: 'Additional Fields',
 		name: 'additionalFields',
@@ -214,8 +231,34 @@ function createAdditionalFieldsProperty(operation: string): INodeProperties {
 		},
 		displayOptions: {
 			show: {
-				operation: [operation],
+				operation: [operationName],
 				useCustomBody: [true],
+			},
+		},
+	};
+}
+
+function createTimeoutProperty(operationName: string): INodeProperties {
+	return {
+		displayName: 'Timeout (Ms)',
+		name: 'timeout',
+		type: 'number',
+		default: 60000,
+		description: 'Timeout in milliseconds for the request',
+		routing: {
+			request: {
+				body: {
+					timeout: '={{ $value }}',
+				},
+			},
+		},
+		displayOptions: {
+			hide: {
+				useCustomBody: [true],
+			},
+			show: {
+				resource: ['Default'],
+				operation: [operationName],
 			},
 		},
 	};
@@ -232,11 +275,15 @@ function createSearchProperties(): INodeProperties[] {
 		// Required parameters
 		createQueryProperty(name),
 
+		// Sources
+		createSourcesProperty(name),
+
+		// Timeout
+		createTimeoutProperty(name),
+
 		// Optional parameters
 		createLimitProperty(name),
 		createTimeBasedSearchProperty(name),
-		createLanguageProperty(name),
-		createCountryProperty(name),
 	];
 }
 

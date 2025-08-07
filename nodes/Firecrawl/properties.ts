@@ -42,7 +42,7 @@ export const extraProperties: INodeProperties[] = [
 		name: 'customBody',
 		type: 'json',
 		default:
-			'{\n  "url": "string",\n  "limit": 0,\n  "excludePaths": [\n    "string"\n  ],\n  "allowBackwardLinks": true,\n  "webhook": "string",\n  "scrapeOptions": {\n    "formats": [\n      "markdown"\n    ],\n    "extract": {\n      "schema": "string",\n      "systemPrompt": "string",\n      "prompt": "string"\n    }\n  }\n}',
+			'{\n  "url": "string",\n  "limit": 0,\n  "excludePaths": [\n    "string"\n  ],\n  "webhook": "string",\n  "scrapeOptions": {\n    "formats": [\n      {\n        "type": "markdown"\n      }\n    ],\n    "extract": {\n      "schema": "string",\n      "systemPrompt": "string",\n      "prompt": "string"\n    }\n  }\n}',
 		description: 'Custom body to send',
 		routing: {
 			request: {
@@ -67,7 +67,7 @@ export const extraProperties: INodeProperties[] = [
 		name: 'customBody',
 		type: 'json',
 		default:
-			'{\n  "url": "string",\n  "excludePaths": [\n    "string"\n  ],\n  "limit": 0,\n  "scrapeOptions": {\n    "formats": [\n      "markdown"\n    ],\n    "extract": {\n      "schema": "string",\n      "systemPrompt": "string",\n      "prompt": "string"\n    }\n  }\n}',
+			'{\n  "url": "string",\n  "excludePaths": [\n    "string"\n  ],\n  "limit": 0,\n  "scrapeOptions": {\n    "formats": [\n      {\n        "type": "markdown"\n      }\n    ],\n    "extract": {\n      "schema": "string",\n      "systemPrompt": "string",\n      "prompt": "string"\n    }\n  }\n}',
 		description: 'Custom body to send',
 		routing: {
 			request: {
@@ -92,7 +92,7 @@ export const extraProperties: INodeProperties[] = [
 		name: 'customBody',
 		type: 'json',
 		default:
-			'{\n  "url": "string",\n  "limit": 0,\n  "webhook": "string",\n  "excludePaths": [\n    "string"\n  ],\n  "scrapeOptions": {\n    "formats": [\n      "markdown"\n    ],\n    "extract": {\n      "schema": "string",\n      "systemPrompt": "string",\n      "prompt": "string"\n    }\n  }\n}',
+			'{\n  "url": "string",\n  "limit": 0,\n  "webhook": "string",\n  "excludePaths": [\n    "string"\n  ],\n  "scrapeOptions": {\n    "formats": [\n      {\n        "type": "markdown"\n      }\n    ],\n    "extract": {\n      "schema": "string",\n      "systemPrompt": "string",\n      "prompt": "string"\n    }\n  }\n}',
 		description: 'Custom body to send',
 		routing: {
 			request: {
@@ -117,7 +117,7 @@ export const extraProperties: INodeProperties[] = [
 		name: 'customBody',
 		type: 'json',
 		default:
-			'{\n  "url": "string",\n  "formats": [\n    "markdown"\n  ],\n  "extract": {\n    "schema": "string",\n    "systemPrompt": "string",\n    "prompt": "string"\n  },\n  "actions": [\n    {\n      "type": "wait",\n      "selector": "string",\n      "milliseconds": 0,\n      "text": "string",\n      "key": "string"\n    }\n  ]\n}',
+			'{\n  "url": "string",\n  "formats": [\n    {\n      "type": "markdown"\n    }\n  ],\n  "extract": {\n    "schema": "string",\n    "systemPrompt": "string",\n    "prompt": "string"\n  },\n  "actions": [\n    {\n      "type": "wait",\n      "selector": "string",\n      "milliseconds": 0,\n      "text": "string",\n      "key": "string"\n    }\n  ]\n}',
 		description: 'Custom body to send',
 		routing: {
 			request: {
@@ -174,7 +174,7 @@ const customBodyCrawl: INodeProperties = {
   "url": "https://firecrawl.dev",
   "excludePaths": ["blog/*"],
   "includePaths": [],
-  "maxDepth": 2,
+  "prompt": "Get the latest news from the blog",
   "limit": 100,
   "crawlOptions": {
     "ignoreSitemap": false,
@@ -182,7 +182,11 @@ const customBodyCrawl: INodeProperties = {
     "allowExternalLinks": false
   },
   "scrapeOptions": {
-    "formats": ["markdown"],
+    "formats": [
+      {
+        "type": "markdown"
+      }
+    ],
     "onlyMainContent": true,
     "removeBase64Images": true,
     "mobile": false,
