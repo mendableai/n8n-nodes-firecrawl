@@ -239,7 +239,8 @@ function createMaxConcurrencyProperty(operationName: string): INodeProperties {
 		},
 		// IMPORTANT: We don't support 100 concurrent scrapes, but we're setting a high default to avoid issues
 		default: 100,
-		description: 'Maximum number of concurrent scrapes. This parameter allows you to set a concurrency limit for this crawl. If not specified, the crawl adheres to your team\'s concurrency limit.',
+		description:
+			"Maximum number of concurrent scrapes. This parameter allows you to set a concurrency limit for this crawl. If not specified, the crawl adheres to your team's concurrency limit.",
 		routing: {
 			request: {
 				body: {
@@ -258,7 +259,6 @@ function createMaxConcurrencyProperty(operationName: string): INodeProperties {
 		},
 	};
 }
-
 
 /**
  * Creates the prompt property
@@ -352,7 +352,8 @@ function createCrawlOptionsProperty(operationName: string): INodeProperties {
 				name: 'allowSubdomains',
 				type: 'boolean',
 				default: false,
-				description: 'Whether to allow the crawler to follow links to subdomains of the main domain',
+				description:
+					'Whether to allow the crawler to follow links to subdomains of the main domain',
 				routing: {
 					request: {
 						body: {

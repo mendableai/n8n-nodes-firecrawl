@@ -238,7 +238,6 @@ function createAdditionalFieldsProperty(operationName: string): INodeProperties 
 	};
 }
 
-
 function createTimeoutProperty(operationName: string): INodeProperties {
 	return {
 		displayName: 'Timeout (Ms)',
