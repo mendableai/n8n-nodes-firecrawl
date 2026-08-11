@@ -233,6 +233,14 @@ export function createUrlProperty(
 }
 
 /**
+ * Turns an `includeTags`/`excludeTags` fixedCollection into the string array the API
+ * expects. Blank rows are dropped, and the field is omitted entirely when no tag is
+ * configured rather than sending an empty array.
+ */
+const TAGS_EXPRESSION =
+	'={{Array.isArray($value.items) && $value.items.some(item => item.tag) ? $value.items.map(item => item.tag).filter(tag => tag) : undefined}}';
+
+/**
  * Creates the actions property
  * @param operationName - The name of the operation
  * @param omitDisplayOptions - Whether to omit the display options
@@ -250,7 +258,7 @@ export function createActionsProperty(
 		displayName: 'Actions',
 		name: 'actions',
 		type: 'fixedCollection',
-		default: [],
+		default: {},
 		typeOptions: {
 			multipleValues: true,
 		},
@@ -565,11 +573,11 @@ export function createIncludeTagsProperty(
 				body: useNestedScrapeOptions
 					? {
 							scrapeOptions: {
-								includeTags: '={{$value.items ? $value.items.map(item => item.tag) : []}}',
+								includeTags: TAGS_EXPRESSION,
 							},
 					  }
 					: {
-							includeTags: '={{$value.items ? $value.items.map(item => item.tag) : []}}',
+							includeTags: TAGS_EXPRESSION,
 					  },
 			},
 		},
@@ -705,11 +713,11 @@ export function createExcludeTagsProperty(
 				body: useNestedScrapeOptions
 					? {
 							scrapeOptions: {
-								excludeTags: '={{$value.items ? $value.items.map(item => item.tag) : []}}',
+								excludeTags: TAGS_EXPRESSION,
 							},
 					  }
 					: {
-							excludeTags: '={{$value.items ? $value.items.map(item => item.tag) : []}}',
+							excludeTags: TAGS_EXPRESSION,
 					  },
 			},
 		},
@@ -873,15 +881,41 @@ function createBatchSpecificProperties(): INodeProperties[] {
 	];
 }
 
+/**
+ * Options inside the scrape options collection that define their own `routing`.
+ *
+ * Their raw n8n value is a `fixedCollection` wrapper (`{ format: [...] }`,
+ * `{ items: [...] }`, `{ settings: {...} }` or `{}` when untouched), not the shape the
+ * API expects. Each of them already serialises itself through its own routing, so the
+ * raw value must be stripped from the collection before it is spread into the request
+ * body - otherwise it leaks through and the API rejects the request with a 400
+ * ("expected array, received object").
+ */
+const SELF_ROUTED_SCRAPE_OPTIONS = [
+	'formats',
+	'includeTags',
+	'excludeTags',
+	'actions',
+	'location',
+	'webhook',
+];
+
 export function createScrapeOptionsProperty(
 	operationName: string,
 	useNestedScrapeOptions: boolean = true,
 	batchMode: boolean = false,
 	resourceName: string = 'Scraping',
 ): INodeProperties {
+	const rawScrapeOptions = `={{Object.fromEntries(Object.entries($value.options || {}).filter(([k]) => !${JSON.stringify(
+		SELF_ROUTED_SCRAPE_OPTIONS,
+	)}.includes(k)))}}`;
 	const scrapeOptionsBody = useNestedScrapeOptions
-		? { scrapeOptions: '={{$value.options}}' }
-		: '={{Object.fromEntries(Object.entries($value.options || {}).filter(([k]) => k !== "webhook"))}}';
+		? { scrapeOptions: rawScrapeOptions }
+		: rawScrapeOptions;
+	// Turns the `formats` fixedCollection into the array the API expects. Omitted entirely
+	// when no format is configured so the API falls back to its own default.
+	const formatsExpression =
+		'={{Array.isArray($value.format) && $value.format.length > 0 ? $value.format.map(f => { if (f.type === "json" || f.type === "changeTracking") { const format = { type: f.type }; if (f.prompt) format.prompt = f.prompt; if (f.schema) { const schema = JSON.parse(f.schema); if (Object.keys(schema).length > 0) format.schema = schema; } if (f.modes) format.modes = f.modes; if (f.tag) format.tag = f.tag; return format; } else if (f.type === "screenshot") { const format = { type: f.type }; if (f.fullPage !== undefined) format.fullPage = f.fullPage; if (f.quality !== undefined && f.quality !== "" && f.quality !== null) format.quality = f.quality; if (f.viewportWidth !== undefined && f.viewportWidth !== "" && f.viewportWidth !== null && f.viewportHeight !== undefined && f.viewportHeight !== "" && f.viewportHeight !== null) { format.viewport = { width: f.viewportWidth, height: f.viewportHeight }; } return format; } else { return f.type; } }) : undefined}}';
 	return {
 		displayName: 'Scrape Options',
 		name: 'scrapeOptions',
@@ -898,7 +932,7 @@ export function createScrapeOptionsProperty(
 						displayName: 'Formats',
 						name: 'formats',
 						type: 'fixedCollection',
-						default: [{ type: 'markdown' }],
+						default: { format: [{ type: 'markdown' }] },
 						typeOptions: {
 							multipleValues: true,
 						},
@@ -1106,10 +1140,9 @@ export function createScrapeOptionsProperty(
 						],
 						routing: {
 							request: {
-								body: {
-									formats:
-										'={{$value.format ? $value.format.map(f => { if (f.type === "json" || f.type === "changeTracking") { const format = { type: f.type }; if (f.prompt) format.prompt = f.prompt; if (f.schema) format.schema = JSON.parse(f.schema); if (f.modes) format.modes = f.modes; if (f.tag) format.tag = f.tag; return format; } else if (f.type === "screenshot") { const format = { type: f.type }; if (f.fullPage !== undefined) format.fullPage = f.fullPage; if (f.quality !== undefined && f.quality !== "" && f.quality !== null) format.quality = f.quality; if (f.viewportWidth !== undefined && f.viewportWidth !== "" && f.viewportWidth !== null && f.viewportHeight !== undefined && f.viewportHeight !== "" && f.viewportHeight !== null) { format.viewport = { width: f.viewportWidth, height: f.viewportHeight }; } return format; } else { return f.type; } }) : []}}',
-								},
+								body: useNestedScrapeOptions
+									? { scrapeOptions: { formats: formatsExpression } }
+									: { formats: formatsExpression },
 							},
 						},
 					},

@@ -1,6 +1,6 @@
 {
   "name": "@mendable/n8n-nodes-firecrawl",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Official Firecrawl nodes for n8n - scrape, crawl, map, search, and extract data from websites. Supports AI Agent tool usage.",
   "keywords": [
     "n8n-community-node-package"
