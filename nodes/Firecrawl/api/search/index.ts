@@ -51,8 +51,7 @@ function createLimitProperty(operationName: string): INodeProperties {
 		typeOptions: {
 			minValue: 1,
 		},
-		// eslint-disable-next-line n8n-nodes-base/node-param-default-wrong-for-limit
-		default: 5,
+		default: 50,
 		description: 'Max number of results to return',
 		routing: {
 			request: {

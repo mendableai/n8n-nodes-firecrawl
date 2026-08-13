@@ -271,6 +271,92 @@ export function createActionsProperty(
 				name: 'items',
 				values: [
 					{
+						displayName: 'Direction',
+						type: 'options',
+						default: 'down',
+						description: 'Direction for `scroll` action',
+						name: 'direction',
+						options: [
+							{
+								name: 'Down',
+								value: 'down',
+							},
+							{
+								name: 'Up',
+								value: 'up',
+							},
+						],
+						displayOptions: {
+							show: {
+								type: ['scroll'],
+							},
+						},
+					},
+					{
+						displayName: 'Full Page',
+						type: 'boolean',
+						default: false,
+						description: 'Whether the screenshot should be full-page or viewport sized',
+						name: 'fullPage',
+						displayOptions: {
+							show: {
+								type: ['screenshot'],
+							},
+						},
+					},
+					{
+						displayName: 'Key',
+						type: 'string',
+						default: '',
+						description:
+							'Keyboard key to press (e.g., "Enter", "Tab", "Escape", "ArrowDown"). Use for form submission, navigation, or triggering keyboard shortcuts.',
+						name: 'key',
+						displayOptions: {
+							show: {
+								type: ['press'],
+							},
+						},
+					},
+					{
+						displayName: 'Milliseconds',
+						type: 'number',
+						default: 1000,
+						description:
+							'Time to wait in milliseconds. Use this to allow JavaScript content to load or animations to complete. Typical values: 1000-3000ms for most pages, 5000ms+ for heavy SPAs.',
+						name: 'milliseconds',
+						displayOptions: {
+							show: {
+								type: ['wait'],
+							},
+						},
+					},
+					{
+						displayName: 'Selector',
+						type: 'string',
+						default: '',
+						description:
+							'CSS selector to target an element (e.g., "#submit-btn", ".load-more", "[data-testid=login]"). Used for click, write, and scroll actions.',
+						name: 'selector',
+						displayOptions: {
+							show: {
+								type: ['click', /* 'wait', */ 'scroll'],
+							},
+						},
+					},
+					{
+						displayName: 'Text',
+						type: 'string',
+						default: '',
+						description:
+							'Text to type into an input field. Use with selector to target the input element. Useful for search boxes, login forms, or any text input.',
+						name: 'text',
+						displayOptions: {
+							show: {
+								type: ['write'],
+							},
+						},
+					},
+					{
 						displayName: 'Type',
 						type: 'options',
 						default: 'wait',
@@ -301,92 +387,6 @@ export function createActionsProperty(
 							},
 						],
 						name: 'type',
-					},
-					{
-						displayName: 'Selector',
-						type: 'string',
-						default: '',
-						description:
-							'CSS selector to target an element (e.g., "#submit-btn", ".load-more", "[data-testid=login]"). Used for click, write, and scroll actions.',
-						name: 'selector',
-						displayOptions: {
-							show: {
-								type: ['click', /* 'wait', */ 'scroll'],
-							},
-						},
-					},
-					{
-						displayName: 'Milliseconds',
-						type: 'number',
-						default: 1000,
-						description:
-							'Time to wait in milliseconds. Use this to allow JavaScript content to load or animations to complete. Typical values: 1000-3000ms for most pages, 5000ms+ for heavy SPAs.',
-						name: 'milliseconds',
-						displayOptions: {
-							show: {
-								type: ['wait'],
-							},
-						},
-					},
-					{
-						displayName: 'Full Page',
-						type: 'boolean',
-						default: false,
-						description: 'Whether the screenshot should be full-page or viewport sized',
-						name: 'fullPage',
-						displayOptions: {
-							show: {
-								type: ['screenshot'],
-							},
-						},
-					},
-					{
-						displayName: 'Text',
-						type: 'string',
-						default: '',
-						description:
-							'Text to type into an input field. Use with selector to target the input element. Useful for search boxes, login forms, or any text input.',
-						name: 'text',
-						displayOptions: {
-							show: {
-								type: ['write'],
-							},
-						},
-					},
-					{
-						displayName: 'Key',
-						type: 'string',
-						default: '',
-						description:
-							'Keyboard key to press (e.g., "Enter", "Tab", "Escape", "ArrowDown"). Use for form submission, navigation, or triggering keyboard shortcuts.',
-						name: 'key',
-						displayOptions: {
-							show: {
-								type: ['press'],
-							},
-						},
-					},
-					{
-						displayName: 'Direction',
-						type: 'options',
-						default: 'down',
-						description: 'Direction for `scroll` action',
-						name: 'direction',
-						options: [
-							{
-								name: 'Down',
-								value: 'down',
-							},
-							{
-								name: 'Up',
-								value: 'up',
-							},
-						],
-						displayOptions: {
-							show: {
-								type: ['scroll'],
-							},
-						},
 					},
 				],
 			},
@@ -929,6 +929,14 @@ export function createScrapeOptionsProperty(
 				name: 'options',
 				values: [
 					{
+						displayName: 'Block Ads',
+						name: 'blockAds',
+						type: 'boolean',
+						default: true,
+						description:
+							'Whether to enable ad-blocking and cookie consent popup blocking for cleaner content extraction. Recommended for most scraping tasks.',
+					},
+					{
 						displayName: 'Formats',
 						name: 'formats',
 						type: 'fixedCollection',
@@ -944,6 +952,116 @@ export function createScrapeOptionsProperty(
 								displayName: 'Format',
 								name: 'format',
 								values: [
+									{
+										displayName: 'Full Page',
+										name: 'fullPage',
+										type: 'boolean',
+										default: false,
+										description: 'Whether to capture the full page screenshot',
+										displayOptions: {
+											show: {
+												type: ['screenshot'],
+											},
+										},
+									},
+									{
+										displayName: 'Modes',
+										name: 'modes',
+										type: 'multiOptions',
+										default: ['git-diff'],
+										description: 'Modes for change tracking. At least one mode must be selected.',
+										displayOptions: {
+											show: {
+												type: ['changeTracking'],
+											},
+										},
+										options: [
+											{
+												name: 'Git Diff',
+												value: 'git-diff',
+											},
+											{
+												name: 'JSON',
+												value: 'json',
+											},
+										],
+									},
+									{
+										displayName: 'Prompt',
+										name: 'prompt',
+										type: 'string',
+										default: '',
+										description: 'Prompt for JSON format extraction',
+										displayOptions: {
+											show: {
+												type: ['json'],
+											},
+										},
+									},
+									{
+										displayName: 'Prompt',
+										name: 'prompt',
+										type: 'string',
+										default: '',
+										description: 'Prompt for change tracking',
+										displayOptions: {
+											show: {
+												type: ['changeTracking'],
+											},
+										},
+									},
+									{
+										displayName: 'Quality',
+										name: 'quality',
+										type: 'number',
+										typeOptions: {
+											minValue: 1,
+											maxValue: 100,
+										},
+										default: 100,
+										description: 'Screenshot quality (1-100)',
+										displayOptions: {
+											show: {
+												type: ['screenshot'],
+											},
+										},
+									},
+									{
+										displayName: 'Schema',
+										name: 'schema',
+										type: 'json',
+										default: '{}',
+										description: 'JSON schema for JSON format extraction',
+										displayOptions: {
+											show: {
+												type: ['json'],
+											},
+										},
+									},
+									{
+										displayName: 'Schema',
+										name: 'schema',
+										type: 'json',
+										default: '{}',
+										description: 'JSON schema for change tracking',
+										displayOptions: {
+											show: {
+												type: ['changeTracking'],
+											},
+										},
+									},
+									{
+										displayName: 'Tag',
+										name: 'tag',
+										type: 'string',
+										default: '',
+										description: 'Tag for change tracking',
+										displayOptions: {
+											show: {
+												type: ['changeTracking'],
+											},
+										},
+									},
 									{
 										displayName: 'Type',
 										name: 'type',
@@ -996,109 +1114,14 @@ export function createScrapeOptionsProperty(
 										],
 									},
 									{
-										displayName: 'Prompt',
-										name: 'prompt',
-										type: 'string',
-										default: '',
-										description: 'Prompt for JSON format extraction',
-										displayOptions: {
-											show: {
-												type: ['json'],
-											},
-										},
-									},
-									{
-										displayName: 'Schema',
-										name: 'schema',
-										type: 'json',
-										default: '{}',
-										description: 'JSON schema for JSON format extraction',
-										displayOptions: {
-											show: {
-												type: ['json'],
-											},
-										},
-									},
-									{
-										displayName: 'Modes',
-										name: 'modes',
-										type: 'multiOptions',
-										default: ['git-diff'],
-										description: 'Modes for change tracking. At least one mode must be selected.',
-										displayOptions: {
-											show: {
-												type: ['changeTracking'],
-											},
-										},
-										options: [
-											{
-												name: 'Git Diff',
-												value: 'git-diff',
-											},
-											{
-												name: 'JSON',
-												value: 'json',
-											},
-										],
-									},
-									{
-										displayName: 'Schema',
-										name: 'schema',
-										type: 'json',
-										default: '{}',
-										description: 'JSON schema for change tracking',
-										displayOptions: {
-											show: {
-												type: ['changeTracking'],
-											},
-										},
-									},
-									{
-										displayName: 'Prompt',
-										name: 'prompt',
-										type: 'string',
-										default: '',
-										description: 'Prompt for change tracking',
-										displayOptions: {
-											show: {
-												type: ['changeTracking'],
-											},
-										},
-									},
-									{
-										displayName: 'Tag',
-										name: 'tag',
-										type: 'string',
-										default: '',
-										description: 'Tag for change tracking',
-										displayOptions: {
-											show: {
-												type: ['changeTracking'],
-											},
-										},
-									},
-									{
-										displayName: 'Full Page',
-										name: 'fullPage',
-										type: 'boolean',
-										default: false,
-										description: 'Whether to capture the full page screenshot',
-										displayOptions: {
-											show: {
-												type: ['screenshot'],
-											},
-										},
-									},
-									{
-										displayName: 'Quality',
-										name: 'quality',
+										displayName: 'Viewport Height',
+										name: 'viewportHeight',
 										type: 'number',
 										typeOptions: {
 											minValue: 1,
-											maxValue: 100,
 										},
-										default: 100,
-										description: 'Screenshot quality (1-100)',
+										default: 768,
+										description: 'Viewport height for screenshot',
 										displayOptions: {
 											show: {
 												type: ['screenshot'],
@@ -1120,21 +1143,6 @@ export function createScrapeOptionsProperty(
 											},
 										},
 									},
-									{
-										displayName: 'Viewport Height',
-										name: 'viewportHeight',
-										type: 'number',
-										typeOptions: {
-											minValue: 1,
-										},
-										default: 768,
-										description: 'Viewport height for screenshot',
-										displayOptions: {
-											show: {
-												type: ['screenshot'],
-											},
-										},
-									},
 								],
 							},
 						],
@@ -1145,14 +1153,6 @@ export function createScrapeOptionsProperty(
 									: { formats: formatsExpression },
 							},
 						},
-					},
-					{
-						displayName: 'Only Main Content',
-						name: 'onlyMainContent',
-						type: 'boolean',
-						default: true,
-						description:
-							'Whether to automatically remove navigation, headers, footers, sidebars, and other boilerplate content. Best for extracting article text or primary page content. Disable to capture the full page.',
 					},
 					createIncludeTagsProperty(operationName, true, useNestedScrapeOptions),
 					createExcludeTagsProperty(operationName, true, useNestedScrapeOptions),
@@ -1181,14 +1181,6 @@ export function createScrapeOptionsProperty(
 						],
 					},
 					{
-						displayName: 'Wait For (Ms)',
-						name: 'waitFor',
-						type: 'number',
-						default: 0,
-						description:
-							'Additional wait time in milliseconds after page load before extracting content. Use for JavaScript-heavy sites where content renders dynamically. 0 uses intelligent auto-detection.',
-					},
-					{
 						displayName: 'Mobile',
 						name: 'mobile',
 						type: 'boolean',
@@ -1197,46 +1189,12 @@ export function createScrapeOptionsProperty(
 							'Whether to emulate a mobile device when scraping. Useful for sites with mobile-specific content, responsive layouts, or mobile-only features. Changes viewport and user-agent.',
 					},
 					{
-						displayName: 'Skip TLS Verification',
-						name: 'skipTlsVerification',
-						type: 'boolean',
-						default: false,
-						description:
-							'Whether to bypass SSL/TLS certificate validation. Enable for sites with self-signed or expired certificates. Use with caution as it reduces security.',
-					},
-					{
-						displayName: 'Timeout (Ms)',
-						name: 'timeout',
-						type: 'number',
-						default: 30000,
-						description:
-							'Maximum time in milliseconds to wait for the page to load. Increase for slow sites or complex pages. Default 30000ms (30 seconds).',
-					},
-					createActionsProperty(operationName, true, useNestedScrapeOptions),
-					createLocationProperty(operationName, true, useNestedScrapeOptions),
-					{
-						displayName: 'Remove Base64 Images',
-						name: 'removeBase64Images',
+						displayName: 'Only Main Content',
+						name: 'onlyMainContent',
 						type: 'boolean',
 						default: true,
 						description:
-							'Whether to strip embedded base64 images from output while preserving alt text. Reduces output size significantly. Disable if you need inline image data.',
-					},
-					{
-						displayName: 'Block Ads',
-						name: 'blockAds',
-						type: 'boolean',
-						default: true,
-						description:
-							'Whether to enable ad-blocking and cookie consent popup blocking for cleaner content extraction. Recommended for most scraping tasks.',
-					},
-					{
-						displayName: 'Store In Cache',
-						name: 'storeInCache',
-						type: 'boolean',
-						default: true,
-						description:
-							'Whether to cache the scraped page for faster subsequent requests. Disable for real-time data needs, sensitive content, or when privacy is a concern.',
+							'Whether to automatically remove navigation, headers, footers, sidebars, and other boilerplate content. Best for extracting article text or primary page content. Disable to capture the full page.',
 					},
 					{
 						displayName: 'Proxy',
@@ -1255,6 +1213,48 @@ export function createScrapeOptionsProperty(
 								value: 'stealth',
 							},
 						],
+					},
+					{
+						displayName: 'Remove Base64 Images',
+						name: 'removeBase64Images',
+						type: 'boolean',
+						default: true,
+						description:
+							'Whether to strip embedded base64 images from output while preserving alt text. Reduces output size significantly. Disable if you need inline image data.',
+					},
+					createActionsProperty(operationName, true, useNestedScrapeOptions),
+					createLocationProperty(operationName, true, useNestedScrapeOptions),
+					{
+						displayName: 'Skip TLS Verification',
+						name: 'skipTlsVerification',
+						type: 'boolean',
+						default: false,
+						description:
+							'Whether to bypass SSL/TLS certificate validation. Enable for sites with self-signed or expired certificates. Use with caution as it reduces security.',
+					},
+					{
+						displayName: 'Store In Cache',
+						name: 'storeInCache',
+						type: 'boolean',
+						default: true,
+						description:
+							'Whether to cache the scraped page for faster subsequent requests. Disable for real-time data needs, sensitive content, or when privacy is a concern.',
+					},
+					{
+						displayName: 'Timeout (Ms)',
+						name: 'timeout',
+						type: 'number',
+						default: 30000,
+						description:
+							'Maximum time in milliseconds to wait for the page to load. Increase for slow sites or complex pages. Default 30000ms (30 seconds).',
+					},
+					{
+						displayName: 'Wait For (Ms)',
+						name: 'waitFor',
+						type: 'number',
+						default: 0,
+						description:
+							'Additional wait time in milliseconds after page load before extracting content. Use for JavaScript-heavy sites where content renders dynamically. 0 uses intelligent auto-detection.',
 					},
 					...(batchMode ? createBatchSpecificProperties() : []),
 				],

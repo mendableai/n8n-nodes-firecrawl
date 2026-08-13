@@ -12,6 +12,8 @@ export class FirecrawlApi implements ICredentialType {
 
 	documentationUrl = 'https://docs.firecrawl.dev/introduction#api-key';
 
+	icon = 'file:firecrawl-logo.svg' as const;
+
 	properties: INodeProperties[] = [
 		{
 			displayName: 'Base URL',
