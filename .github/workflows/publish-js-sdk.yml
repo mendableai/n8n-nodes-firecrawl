@@ -7,6 +7,10 @@ on:
     paths:
       - package.json
 
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
+
 jobs:
   publish:
     name: Publish to npm
@@ -21,11 +25,10 @@ jobs:
         with:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false  # never use caching in release builds
       - name: Install dependencies
         run: npm install
       - name: Build
         run: npm run build
       - name: Publish
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
