@@ -15,9 +15,6 @@
     "type": "git",
     "url": "git+https://github.com/firecrawl/n8n-nodes-firecrawl.git"
   },
-  "bugs": {
-    "url": "https://github.com/firecrawl/n8n-nodes-firecrawl/issues"
-  },
   "main": "index.js",
   "scripts": {
     "build": "tsc && gulp build:icons",
