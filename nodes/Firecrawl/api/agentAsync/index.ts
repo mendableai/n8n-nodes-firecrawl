@@ -3,6 +3,7 @@ import {
 	IExecuteSingleFunctions,
 	IHttpRequestOptions,
 	INodeProperties,
+	NodeOperationError,
 } from 'n8n-workflow';
 import { buildApiProperties, createOperationNotice, extractUrls, convertToSchema } from '../common';
 
@@ -233,7 +234,10 @@ function createJsonExampleProperty(): INodeProperties {
 								body.schema = convertToSchema(example);
 								delete body.jsonExample;
 							} catch (error) {
-								throw new Error('Invalid JSON example. Please provide valid JSON.');
+								throw new NodeOperationError(
+									this.getNode(),
+									'Invalid JSON example. Please provide valid JSON.',
+								);
 							}
 						}
 

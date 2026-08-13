@@ -93,8 +93,7 @@ function createLimitProperty(): INodeProperties {
 			// eslint-disable-next-line n8n-nodes-base/node-param-type-options-max-value-present
 			maxValue: 5000,
 		},
-		// eslint-disable-next-line n8n-nodes-base/node-param-default-wrong-for-limit
-		default: 5000,
+		default: 50,
 		description: 'Max number of results to return',
 		routing: {
 			request: {
